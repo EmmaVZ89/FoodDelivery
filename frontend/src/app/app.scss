@@ -1,0 +1,219 @@
+// ============================================
+// Header
+// ============================================
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 64px;
+  background: linear-gradient(135deg, #1C1210 0%, #2D1F1A 100%) !important;
+  color: white !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: 64px;
+}
+
+.logo-btn {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: white;
+  padding: 2px;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: white;
+  letter-spacing: -0.2px;
+}
+
+.spacer { flex: 1; }
+
+// ============================================
+// Desktop navigation
+// ============================================
+.desktop-nav {
+  display: none;
+  margin-left: 28px;
+  gap: 2px;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    &.active {
+      background: rgba(194, 65, 12, 0.6);
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
+
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #D97706;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  margin-left: 4px;
+  padding: 0 5px;
+}
+
+.desktop-user {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-icon {
+  color: rgba(255, 255, 255, 0.6) !important;
+  &:hover { color: white !important; }
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #C2410C, #D97706) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border: none !important;
+  font-size: 13px !important;
+  padding: 0 20px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  border-radius: 20px !important;
+  letter-spacing: 0.3px !important;
+  box-shadow: 0 2px 8px rgba(194, 65, 12, 0.3) !important;
+}
+
+// ============================================
+// Main content
+// ============================================
+.app-content {
+  margin-top: 64px;
+  background: var(--color-bg);
+
+  &.no-header { margin-top: 0; }
+  &.has-bottom-nav { padding-bottom: 60px; }
+}
+
+// ============================================
+// Bottom navigation (mobile)
+// ============================================
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid var(--color-border);
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 10px;
+    color: #A8A29E;
+    font-size: 10px;
+    font-weight: 500;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+
+    &.active {
+      color: #C2410C;
+      font-weight: 600;
+    }
+  }
+}
+
+// ============================================
+// Responsive
+// ============================================
+@media (min-width: 768px) {
+  .desktop-nav { display: flex; }
+  .bottom-nav { display: none; }
+  .app-content.has-bottom-nav { padding-bottom: 0; }
+  .brand-name { font-size: 19px; }
+}
+
+@media (max-width: 767px) {
+  .app-header { height: 56px; }
+  .header-content { height: 56px; padding: 0 8px; }
+  .brand-name { font-size: 15px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+  .header-logo { width: 30px; height: 30px; border-radius: 8px; }
+  .login-btn { font-size: 12px !important; padding: 0 14px !important; height: 32px !important; line-height: 32px !important; }
+  .app-content { margin-top: 56px; }
+}

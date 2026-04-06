@@ -1,0 +1,6 @@
+@LosDeLuna.API_HostAddress = http://localhost:5104
+
+GET {{LosDeLuna.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

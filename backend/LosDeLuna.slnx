@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LosDeLuna.API/LosDeLuna.API.csproj" />
+    <Project Path="src/LosDeLuna.Core/LosDeLuna.Core.csproj" />
+    <Project Path="src/LosDeLuna.Infra/LosDeLuna.Infra.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,98 @@
+<div class="container orders-page">
+  <h2 class="section-title">Mis pedidos</h2>
+
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (orders().length === 0) {
+    <div class="empty-state">
+      <mat-icon>receipt_long</mat-icon>
+      <h3>No tenés pedidos aún</h3>
+      <button mat-raised-button color="primary" routerLink="/home">Ver menú</button>
+    </div>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders(); track order.id) {
+        <div class="order-card" (click)="toggleDetail(order)">
+          <div class="order-header">
+            <div class="order-info">
+              <span class="order-code">#{{ order.orderCode }}</span>
+              <span class="order-date">{{ order.createdAt | date:'dd/MM/yy HH:mm' }}</span>
+            </div>
+            <div class="order-status" [ngClass]="getStatusClass(order.status)">
+              <mat-icon>{{ getStatusIcon(order.status) }}</mat-icon>
+              <span>{{ getStatusLabel(order.status) }}</span>
+            </div>
+          </div>
+          <div class="order-summary">
+            <span>{{ order.itemCount }} producto{{ order.itemCount > 1 ? 's' : '' }}</span>
+            <span class="order-total">{{ order.total | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+
+          <!-- Expanded detail -->
+          @if (expandedOrder()?.id === order.id) {
+            <div class="order-detail" (click)="$event.stopPropagation()">
+              @if (loadingDetail()) {
+                <mat-spinner diameter="24"></mat-spinner>
+              } @else {
+                <div class="detail-items">
+                  @for (item of expandedOrder()!.items; track item.id) {
+                    <div class="detail-item">
+                      <span>{{ item.quantity }}x {{ item.productName }}
+                        @if (item.variantName) { ({{ item.variantName }}) }
+                      </span>
+                      <span>{{ item.subtotal | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+                    </div>
+                    @for (c of item.customizations; track c.optionName) {
+                      <div class="detail-cust">
+                        @if (c.optionQuantity > 1) { {{ c.optionQuantity }}x }
+                        {{ c.optionName }}
+                      </div>
+                    }
+                    @if (item.observations) {
+                      <div class="detail-obs">{{ item.observations }}</div>
+                    }
+                  }
+                </div>
+
+                <div class="detail-delivery">
+                  <mat-icon>place</mat-icon>
+                  <span>{{ expandedOrder()!.deliveryAddress }}</span>
+                </div>
+
+                @if (expandedOrder()!.status !== 'Cancelled') {
+                  <button mat-stroked-button class="whatsapp-resend" (click)="sendWhatsApp(expandedOrder()!)">
+                    <mat-icon>whatsapp</mat-icon>
+                    Reenviar por WhatsApp
+                  </button>
+                }
+
+                <!-- Status history -->
+                @if (expandedOrder()!.statusHistory.length > 0) {
+                  <div class="status-timeline">
+                    @for (h of expandedOrder()!.statusHistory; track h.createdAt) {
+                      <div class="timeline-item" [ngClass]="getStatusClass(h.status)">
+                        <mat-icon>{{ getStatusIcon(h.status) }}</mat-icon>
+                        <div>
+                          <span class="timeline-label">{{ getStatusLabel(h.status) }}</span>
+                          <span class="timeline-date">{{ h.createdAt | date:'dd/MM HH:mm' }}</span>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (page < totalPages) {
+      <div class="load-more">
+        <button mat-stroked-button (click)="loadMore()">Ver más pedidos</button>
+      </div>
+    }
+  }
+</div>

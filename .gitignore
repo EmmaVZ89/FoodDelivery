@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.angular/
+
+# Build output
+dist/
+bin/
+obj/
+*.user
+.vs/
+
+# Environment (NEVER commit)
+.env
+*.env.local
+
+# Storage (images uploaded by users)
+storage/
+backend/storage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.sln.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Residual
+backend/frontend/
+
+# Legacy projects (remove after migration verified)
+DeliveryWebApp/
+DeliveryWebAppAdminMobile/
+Lo-de-luna-WebApp/
+
+# Temp files
+*.tmp
+*.log
+Nuevo documento de texto.txt
+requerimiento iniciales.txt

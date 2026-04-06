@@ -1,0 +1,83 @@
+<div class="container catalog-page">
+  <a class="back-link" (click)="goBack()"><mat-icon>arrow_back</mat-icon> Volver a categorías</a>
+  <h2 class="section-title">
+    @if (category()) {
+      {{ category()!.name }}
+    } @else {
+      <span class="skeleton-title" style="display:inline-block; width:150px"></span>
+    }
+  </h2>
+
+  @if (loading()) {
+    <div class="products-grid">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="skeleton-card product-skeleton">
+          <div class="skeleton-image" style="height:140px"></div>
+          <div style="padding: 12px">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-text" style="width:40%"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (products().length === 0) {
+    <div class="empty-state">
+      <mat-icon>restaurant</mat-icon>
+      <p>No hay productos en esta categoría</p>
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of products(); track product.id) {
+        <div
+          class="product-card"
+          [class.unavailable]="!product.isAvailable"
+          (click)="openProduct(product)"
+        >
+          @if (product.imageUrl) {
+            <img [src]="product.imageUrl" [alt]="product.name" class="product-image" loading="lazy" />
+          } @else {
+            <div class="product-image product-placeholder">
+              <mat-icon>fastfood</mat-icon>
+            </div>
+          }
+
+          <!-- Badges -->
+          @if (!product.isAvailable) {
+            <span class="badge badge-unavailable">Agotado</span>
+          } @else if (product.isPromotion) {
+            <span class="badge badge-promo">{{ product.discountPercent }}% OFF</span>
+          }
+
+          <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            @if (product.description) {
+              <p class="product-desc">{{ product.description }}</p>
+            }
+            <div class="product-price">
+              @if (product.hasVariants && product.minVariantPrice) {
+                <span class="price">Desde {{ product.minVariantPrice | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+              } @else if (product.isPromotion) {
+                <span class="price-original">{{ product.price | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+                <span class="price price-discount">{{ getDiscountedPrice(product) | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+              } @else {
+                <span class="price">{{ product.price | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (page < totalPages) {
+      <div class="load-more">
+        <button mat-stroked-button (click)="loadMore()" [disabled]="loadingMore()">
+          @if (loadingMore()) {
+            Cargando...
+          } @else {
+            Ver más productos
+          }
+        </button>
+      </div>
+    }
+  }
+</div>

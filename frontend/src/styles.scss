@@ -1,0 +1,295 @@
+@use '@angular/material' as mat;
+
+// ============================================
+// Design Tokens - Food-friendly warm palette
+// ============================================
+:root {
+  --color-primary: #C2410C;        // Terracota - appetizing warm
+  --color-primary-dark: #9A3412;
+  --color-primary-light: #FB923C;
+  --color-accent: #D97706;         // Golden amber
+  --color-accent-light: #FCD34D;
+
+  --color-bg: #FBF8F3;            // Warm cream
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #FEF7ED;
+  --color-border: #F0E6D9;        // Warm border
+
+  --color-text: #1C1210;          // Dark warm brown
+  --color-text-secondary: #78716C;
+  --color-text-muted: #A8A29E;
+
+  --color-success: #16A34A;
+  --color-error: #DC2626;
+  --color-warning: #F59E0B;
+
+  --shadow-sm: 0 1px 3px rgba(28, 18, 16, 0.06), 0 1px 2px rgba(28, 18, 16, 0.04);
+  --shadow-md: 0 4px 12px rgba(28, 18, 16, 0.08), 0 2px 4px rgba(28, 18, 16, 0.04);
+  --shadow-lg: 0 12px 32px rgba(28, 18, 16, 0.12), 0 4px 8px rgba(28, 18, 16, 0.06);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+html {
+  height: 100%;
+  @include mat.theme((
+    color: (
+      primary: mat.$red-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+* { box-sizing: border-box; }
+
+// ============================================
+// Typography
+// ============================================
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 20px 0 12px;
+  letter-spacing: -0.2px;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: -8px 0 16px;
+}
+
+// ============================================
+// Layout
+// ============================================
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+// ============================================
+// Skeleton Loaders
+// ============================================
+.skeleton {
+  background: linear-gradient(90deg, #EDE8E3 25%, #F5F0EB 50%, #EDE8E3 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-text { @extend .skeleton; height: 14px; margin-bottom: 8px; width: 80%; }
+.skeleton-title { @extend .skeleton; height: 20px; margin-bottom: 12px; width: 60%; }
+.skeleton-image { @extend .skeleton; width: 100%; aspect-ratio: 16/9; }
+.skeleton-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+// ============================================
+// Cards
+// ============================================
+.product-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  border: 1px solid var(--color-border);
+
+  &:active { transform: scale(0.98); }
+
+  @media (min-width: 768px) {
+    &:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+      border-color: transparent;
+    }
+  }
+}
+
+// ============================================
+// Prices & Badges
+// ============================================
+.price {
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 15px;
+}
+
+.price-original {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.price-discount {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.badge-promo {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: white;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.badge-unavailable {
+  background: var(--color-text-muted);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+// ============================================
+// Material overrides — fix contrast on ALL buttons
+// ============================================
+
+// Raised / Flat buttons (filled) — primary
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  background: linear-gradient(135deg, #C2410C, #9A3412) !important;
+  color: white !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.2px !important;
+  --mdc-filled-button-label-text-color: white !important;
+  --mdc-protected-button-label-text-color: white !important;
+}
+
+// Raised / Flat buttons — warn
+.mat-mdc-raised-button.mat-warn,
+.mat-mdc-unelevated-button.mat-warn {
+  background: #DC2626 !important;
+  color: white !important;
+  --mdc-filled-button-label-text-color: white !important;
+}
+
+// Stroked buttons — primary
+.mat-mdc-outlined-button.mat-primary {
+  color: #C2410C !important;
+  border-color: #C2410C !important;
+  --mdc-outlined-button-label-text-color: #C2410C !important;
+}
+
+// Stroked buttons — warn
+.mat-mdc-outlined-button.mat-warn {
+  color: #DC2626 !important;
+  border-color: #DC2626 !important;
+  --mdc-outlined-button-label-text-color: #DC2626 !important;
+}
+
+// Icon buttons — primary
+.mat-mdc-icon-button.mat-primary {
+  color: #C2410C !important;
+}
+
+// Icon buttons — warn
+.mat-mdc-icon-button.mat-warn {
+  color: #DC2626 !important;
+}
+
+// Checkboxes — primary
+.mat-mdc-checkbox.mat-primary {
+  --mdc-checkbox-selected-icon-color: #C2410C;
+  --mdc-checkbox-selected-hover-icon-color: #9A3412;
+  --mdc-checkbox-selected-focus-icon-color: #C2410C;
+  --mdc-checkbox-selected-pressed-icon-color: #9A3412;
+  --mdc-checkbox-selected-checkmark-color: white;
+}
+
+// Radio buttons
+.mat-mdc-radio-button.mat-primary {
+  --mdc-radio-selected-icon-color: #C2410C;
+  --mdc-radio-selected-hover-icon-color: #9A3412;
+  --mdc-radio-selected-focus-icon-color: #C2410C;
+  --mdc-radio-selected-pressed-icon-color: #9A3412;
+}
+
+// Slide toggle
+.mat-mdc-slide-toggle.mat-primary {
+  --mdc-switch-selected-handle-color: #C2410C;
+  --mdc-switch-selected-track-color: #FDBA74;
+  --mdc-switch-selected-hover-handle-color: #9A3412;
+  --mdc-switch-selected-focus-handle-color: #C2410C;
+  --mdc-switch-selected-pressed-handle-color: #9A3412;
+}
+
+// Form field focus
+.mat-mdc-form-field.mat-focused {
+  --mdc-outlined-text-field-focus-outline-color: #C2410C;
+  --mdc-outlined-text-field-focus-label-text-color: #C2410C;
+  --mdc-filled-text-field-focus-active-indicator-color: #C2410C;
+  --mdc-filled-text-field-focus-label-text-color: #C2410C;
+}
+
+// Snackbar
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  border-radius: var(--radius-sm) !important;
+}
+
+// Dialog
+.mat-mdc-dialog-surface {
+  max-height: 90vh !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+.mat-column-actions {
+  white-space: nowrap;
+  width: 1%;
+}
+
+// ============================================
+// Responsive
+// ============================================
+@media (max-width: 599px) {
+  .container { padding: 0 12px; }
+  .section-title { font-size: 18px; margin: 14px 0 10px; }
+
+  .cdk-overlay-pane.product-detail-dialog {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    max-height: 100vh !important;
+    height: 100vh !important;
+  }
+}
+
+@media (min-width: 600px) {
+  .section-title { font-size: 22px; margin: 24px 0 14px; }
+}

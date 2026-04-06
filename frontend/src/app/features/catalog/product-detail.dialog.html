@@ -1,0 +1,197 @@
+@if (loading()) {
+  <div class="dialog-loading">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+} @else if (product(); as p) {
+  <!-- Header Image -->
+  @if (p.imageUrl) {
+    <div class="dialog-image">
+      <img [src]="p.imageUrl" [alt]="p.name" />
+      <button mat-icon-button class="close-btn" (click)="dialogRef.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  } @else {
+    <div class="dialog-header-no-image">
+      <h2>{{ p.name }}</h2>
+      <button mat-icon-button (click)="dialogRef.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  }
+
+  <div class="dialog-body">
+    <!-- Product info -->
+    <div class="product-header">
+      @if (p.imageUrl) {
+        <h2>{{ p.name }}</h2>
+      }
+      @if (p.description) {
+        <p class="description">{{ p.description }}</p>
+      }
+
+      <!-- Price (simple product) -->
+      @if (!p.hasVariants) {
+        <div class="price-display">
+          @if (p.isPromotion) {
+            <span class="price-original">{{ p.price | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+            <span class="price price-discount">
+              {{ p.price * (1 - p.discountPercent / 100) | currency:'ARS':'symbol-narrow':'1.0-0' }}
+            </span>
+            <span class="badge-promo">{{ p.discountPercent }}% OFF</span>
+          } @else {
+            <span class="price">{{ p.price | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Variants (ej: empanadas unit/half-dozen/dozen) -->
+    @if (p.hasVariants && p.variants.length > 0) {
+      <div class="section">
+        <h3 class="section-label">Elegí una opción</h3>
+        <div class="variants-list">
+          @for (variant of p.variants; track variant.id) {
+            <button
+              class="variant-chip"
+              [class.selected]="selectedVariantId === variant.id"
+              (click)="selectedVariantId = variant.id"
+            >
+              <span class="variant-name">{{ variant.name }}</span>
+              <span class="variant-price">{{ variant.price | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Customization Groups -->
+    @for (group of p.customizationGroups; track group.id) {
+      <div class="section">
+        <div class="section-header">
+          <h3 class="section-label">
+            {{ group.name }}
+            @if (group.isRequired) {
+              <span class="required-badge">Obligatorio</span>
+            }
+          </h3>
+          @if (group.selectionType === 'Multiple' || group.selectionType === 'Quantity') {
+            <span class="selection-counter">
+              {{ getTotalSelected(group) }}/{{ getMaxSelections(group) }}
+            </span>
+          }
+        </div>
+
+        <!-- Single Select -->
+        @if (group.selectionType === 'Single') {
+          <div class="options-list">
+            @for (option of group.options; track option.id) {
+              <label class="option-item" (click)="selectSingle(group, option)">
+                <mat-radio-button
+                  [checked]="getSingleSelected(group) === option.id"
+                  color="primary"
+                ></mat-radio-button>
+                <span class="option-name">{{ option.name }}</span>
+                @if (option.priceModifier > 0) {
+                  <span class="option-price">+{{ option.priceModifier | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+                }
+              </label>
+            }
+          </div>
+        }
+
+        <!-- Multiple Select -->
+        @if (group.selectionType === 'Multiple') {
+          <div class="options-list">
+            @for (option of group.options; track option.id) {
+              <label
+                class="option-item"
+                [class.disabled]="isMultipleDisabled(group, option)"
+                (click)="toggleMultiple(group, option)"
+              >
+                <mat-checkbox
+                  [checked]="isMultipleSelected(group, option)"
+                  [disabled]="isMultipleDisabled(group, option)"
+                  color="primary"
+                ></mat-checkbox>
+                <span class="option-name">{{ option.name }}</span>
+                @if (option.priceModifier > 0) {
+                  <span class="option-price">+{{ option.priceModifier | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+                }
+              </label>
+            }
+          </div>
+        }
+
+        <!-- Quantity Select -->
+        @if (group.selectionType === 'Quantity') {
+          <div class="options-list">
+            @for (option of group.options; track option.id) {
+              <div class="option-item quantity-item">
+                <span class="option-name">{{ option.name }}</span>
+                @if (option.priceModifier > 0) {
+                  <span class="option-price">+{{ option.priceModifier | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+                }
+                <div class="qty-controls">
+                  <button
+                    mat-icon-button
+                    class="qty-btn"
+                    (click)="decrementOption(group, option)"
+                    [disabled]="getOptionQuantity(group, option) === 0"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <span class="qty-value">{{ getOptionQuantity(group, option) }}</span>
+                  <button
+                    mat-icon-button
+                    class="qty-btn"
+                    (click)="incrementOption(group, option)"
+                    [disabled]="isQuantityMaxReached(group)"
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Observations -->
+    <div class="section">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Observaciones</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="observations"
+          placeholder="Ej: sin cebolla, bien cocido..."
+          rows="2"
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Footer: quantity + add to cart -->
+  <div class="dialog-footer">
+    <div class="quantity-selector">
+      <button mat-icon-button (click)="decrementQuantity()" [disabled]="quantity <= 1">
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+      <span class="quantity-value">{{ quantity }}</span>
+      <button mat-icon-button (click)="incrementQuantity()">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="add-btn"
+      [disabled]="!canAddToCart"
+      (click)="addToCart()"
+    >
+      Agregar {{ totalPrice | currency:'ARS':'symbol-narrow':'1.0-0' }}
+    </button>
+  </div>
+}

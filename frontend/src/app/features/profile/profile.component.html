@@ -1,0 +1,65 @@
+<div class="container profile-page">
+  <h2 class="section-title">Mi perfil</h2>
+
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (profile(); as p) {
+    <div class="profile-form">
+      <div class="email-display">
+        <mat-icon>email</mat-icon>
+        <span>{{ p.email }}</span>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput [(ngModel)]="phone" type="tel" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <input matInput [(ngModel)]="address" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Entre calles</mat-label>
+        <input matInput [(ngModel)]="betweenStreets" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Piso / Depto</mat-label>
+        <input matInput [(ngModel)]="apartmentInfo" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Notas de entrega</mat-label>
+        <textarea matInput [(ngModel)]="deliveryNotes" rows="2"></textarea>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="save-btn"
+        [disabled]="saving()"
+        (click)="save()"
+      >
+        @if (saving()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          Guardar cambios
+        }
+      </button>
+
+      <button mat-stroked-button color="warn" class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar sesión
+      </button>
+    </div>
+  }
+</div>

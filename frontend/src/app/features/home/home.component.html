@@ -1,0 +1,107 @@
+<!-- Hero Banner -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>{{ configService.config()?.name || 'Lo de Luna' }}</h1>
+    <p class="hero-subtitle">Pedí tu comida favorita y recibila en tu puerta</p>
+    @if (configService.config()?.address) {
+      <div class="hero-address">
+        <mat-icon>place</mat-icon>
+        <span>{{ configService.config()!.address }}</span>
+      </div>
+    }
+    <div class="hero-status">
+      @if (configService.config()?.isOpen) {
+        <span class="status-badge open"><mat-icon>check_circle</mat-icon> Abierto ahora</span>
+      } @else {
+        <span class="status-badge closed"><mat-icon>schedule</mat-icon> Cerrado</span>
+      }
+    </div>
+  </div>
+</section>
+
+<div class="container home-body">
+
+  <!-- Promotions -->
+  @if (loadingPromos()) {
+    <section class="promo-section">
+      <div class="promo-skeleton skeleton"></div>
+    </section>
+  } @else if (promotions().length > 0) {
+    <section class="promo-section">
+      <h2 class="section-title">Ofertas del día</h2>
+      <div class="promo-carousel">
+        @for (promo of promotions(); track promo.id; let i = $index) {
+          <div class="promo-slide" [class.active]="i === currentPromoIndex" (click)="goToProduct(promo)">
+            @if (promo.imageUrl) {
+              <img [src]="promo.imageUrl" [alt]="promo.name" class="promo-image" />
+            } @else {
+              <div class="promo-image promo-placeholder">
+                <mat-icon>local_offer</mat-icon>
+              </div>
+            }
+            <div class="promo-info">
+              <span class="badge-promo">{{ promo.discountPercent }}% OFF</span>
+              <h3>{{ promo.name }}</h3>
+              <div class="promo-prices">
+                <span class="price-original">{{ promo.price | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+                <span class="price-discount">{{ getDiscountedPrice(promo) | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+              </div>
+            </div>
+          </div>
+        }
+        @if (promotions().length > 1) {
+          <button class="carousel-btn prev" (click)="prevPromo()"><mat-icon>chevron_left</mat-icon></button>
+          <button class="carousel-btn next" (click)="nextPromo()"><mat-icon>chevron_right</mat-icon></button>
+          <div class="carousel-dots">
+            @for (promo of promotions(); track promo.id; let i = $index) {
+              <span class="dot" [class.active]="i === currentPromoIndex"></span>
+            }
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- Categories -->
+  <section class="categories-section">
+    <h2 class="section-title">Nuestro menú</h2>
+    <p class="section-subtitle">Elegí una categoría para ver los productos</p>
+
+    @if (loadingCategories()) {
+      <div class="categories-grid">
+        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+          <div class="skeleton-card category-skeleton">
+            <div class="skeleton-image"></div>
+            <div style="padding: 12px"><div class="skeleton-title"></div></div>
+          </div>
+        }
+      </div>
+    } @else if (categories().length === 0) {
+      <div class="empty-section">
+        <mat-icon>restaurant_menu</mat-icon>
+        <p>El menú se está preparando. ¡Volvé pronto!</p>
+      </div>
+    } @else {
+      <div class="categories-grid">
+        @for (cat of categories(); track cat.id) {
+          <div class="category-card" (click)="goToCategory(cat)">
+            @if (cat.imageUrl) {
+              <img [src]="cat.imageUrl" [alt]="cat.name" class="category-image" loading="lazy" />
+            } @else {
+              <div class="category-image category-placeholder">
+                <mat-icon>restaurant_menu</mat-icon>
+              </div>
+            }
+            <div class="category-overlay">
+              <h3>{{ cat.name }}</h3>
+              @if (cat.description) {
+                <p>{{ cat.description }}</p>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+</div>

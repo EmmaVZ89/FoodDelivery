@@ -1,0 +1,165 @@
+<div class="container checkout-page">
+
+  @if (confirmedOrder(); as order) {
+    <!-- Confirmation -->
+    <div class="confirmation">
+      <mat-icon class="confirm-icon">check_circle</mat-icon>
+      <h2>¡Pedido confirmado!</h2>
+      <p class="order-code">Código: <strong>{{ order.orderCode }}</strong></p>
+      <p class="order-total">Total: <strong>{{ order.total | currency:'ARS':'symbol-narrow':'1.0-0' }}</strong></p>
+
+      <button mat-raised-button color="primary" class="whatsapp-btn" (click)="sendWhatsApp()">
+        <mat-icon>whatsapp</mat-icon>
+        Enviar por WhatsApp
+      </button>
+
+      <button mat-stroked-button routerLink="/orders" class="full-width">
+        Ver mis pedidos
+      </button>
+    </div>
+  } @else {
+    @if (cartService.items().length === 0) {
+      <div class="empty-checkout">
+        <mat-icon>shopping_cart</mat-icon>
+        <h3>Tu carrito está vacío</h3>
+        <p>Agregá productos antes de confirmar tu pedido</p>
+        <button mat-raised-button color="primary" routerLink="/home">Ver menú</button>
+      </div>
+    } @else {
+    <h2 class="section-title">Confirmar pedido</h2>
+
+    <div class="checkout-form">
+      <!-- Delivery info -->
+      <div class="form-section">
+        <h3>Datos de entrega</h3>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput [(ngModel)]="name" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Teléfono</mat-label>
+          <input matInput [(ngModel)]="phone" type="tel" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Dirección</mat-label>
+          <input matInput [(ngModel)]="address" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Entre calles (opcional)</mat-label>
+          <input matInput [(ngModel)]="betweenStreets" />
+        </mat-form-field>
+
+        <mat-checkbox [(ngModel)]="isDepartment" color="primary">
+          Es departamento
+        </mat-checkbox>
+
+        @if (isDepartment) {
+          <mat-form-field appearance="outline" class="full-width" style="margin-top: 8px">
+            <mat-label>Piso / Depto</mat-label>
+            <input matInput [(ngModel)]="apartment" required />
+          </mat-form-field>
+        }
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Referencia (opcional)</mat-label>
+          <input matInput [(ngModel)]="notes" placeholder="Ej: frente al supermercado" />
+        </mat-form-field>
+      </div>
+
+      <!-- Payment -->
+      <div class="form-section">
+        <h3>Método de pago</h3>
+        <mat-radio-group [(ngModel)]="paymentMethod" class="payment-options">
+          <mat-radio-button value="Transfer" color="primary">Transferencia</mat-radio-button>
+          <mat-radio-button value="Cash" color="primary">Efectivo</mat-radio-button>
+        </mat-radio-group>
+
+        @if (paymentMethod === 'Cash') {
+          <mat-form-field appearance="outline" class="full-width" style="margin-top: 12px">
+            <mat-label>¿Con cuánto pagás?</mat-label>
+            <span matPrefix>$&nbsp;</span>
+            <input matInput type="number" [(ngModel)]="cashAmount" />
+          </mat-form-field>
+        }
+      </div>
+
+      <!-- Coupon -->
+      <div class="form-section">
+        <h3>Cupón de descuento</h3>
+        @if (discount()) {
+          <div class="coupon-applied">
+            <mat-icon>local_offer</mat-icon>
+            <span>{{ discount()!.code }} - {{ discount()!.discountPercent }}% OFF</span>
+            <button mat-icon-button (click)="removeCoupon()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        } @else {
+          <div class="coupon-input">
+            <mat-form-field appearance="outline" class="coupon-field">
+              <mat-label>Código</mat-label>
+              <input matInput [(ngModel)]="couponCode" [disabled]="validatingCoupon()" />
+            </mat-form-field>
+            <button mat-stroked-button (click)="validateCoupon()" [disabled]="validatingCoupon() || !couponCode">
+              @if (validatingCoupon()) { ... } @else { Aplicar }
+            </button>
+          </div>
+          @if (couponError()) {
+            <p class="error-text">{{ couponError() }}</p>
+          }
+        }
+      </div>
+
+      <!-- Summary -->
+      <div class="form-section summary">
+        <h3>Resumen</h3>
+        @for (item of cartService.items(); track $index) {
+          <div class="summary-item">
+            <span>{{ item.quantity }}x {{ item.productName }}
+              @if (item.variantName) { ({{ item.variantName }}) }
+            </span>
+            <span>{{ (item.unitPrice * item.quantity) | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+        }
+        <div class="divider"></div>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>{{ cartService.subtotal() | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+        </div>
+        @if (discountAmount > 0) {
+          <div class="summary-row discount">
+            <span>Descuento</span>
+            <span>-{{ discountAmount | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+        }
+        <div class="summary-row">
+          <span>Envío</span>
+          <span>{{ shippingCost === 0 ? 'GRATIS' : (shippingCost | currency:'ARS':'symbol-narrow':'1.0-0') }}</span>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <span>{{ total | currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="submit-btn"
+        [disabled]="!canSubmit || submitting()"
+        (click)="submit()"
+      >
+        @if (submitting()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          Confirmar pedido - {{ total | currency:'ARS':'symbol-narrow':'1.0-0' }}
+        }
+      </button>
+    </div>
+    }
+  }
+</div>

@@ -1,0 +1,98 @@
+<!-- Header -->
+@if (!isAuthRoute && !isAdminRoute) {
+  <mat-toolbar color="primary" class="app-header">
+    <div class="header-content">
+      <button mat-icon-button (click)="navigate('/home')" class="logo-btn">
+        @if (configService.config()?.logoUrl) {
+          <img [src]="configService.config()!.logoUrl" alt="Logo" class="header-logo" />
+        } @else {
+          <mat-icon>restaurant</mat-icon>
+        }
+      </button>
+      <span class="brand-name" (click)="navigate('/home')">
+        {{ configService.config()?.name || 'Lo de Luna' }}
+      </span>
+
+      <!-- Desktop nav links (icon + label) -->
+      <nav class="desktop-nav">
+        <a (click)="navigate('/home')" [class.active]="router.url === '/home'">
+          <mat-icon>home</mat-icon> Inicio
+        </a>
+        <a (click)="navigate('/cart')" [class.active]="router.url === '/cart'">
+          <mat-icon>shopping_cart</mat-icon> Carrito
+          @if (cartService.itemCount()) {
+            <span class="nav-badge">{{ cartService.itemCount() }}</span>
+          }
+        </a>
+        @if (authService.isAuthenticated()) {
+          <a (click)="navigate('/orders')" [class.active]="router.url === '/orders'">
+            <mat-icon>receipt_long</mat-icon> Pedidos
+          </a>
+          <a (click)="navigate('/profile')" [class.active]="router.url === '/profile'">
+            <mat-icon>person</mat-icon> Perfil
+          </a>
+        }
+        @if (authService.isAdmin()) {
+          <a (click)="navigate('/admin')" [class.active]="router.url.startsWith('/admin')">
+            <mat-icon>admin_panel_settings</mat-icon> Admin
+          </a>
+        }
+      </nav>
+
+      <span class="spacer"></span>
+
+      @if (authService.isAuthenticated()) {
+        <span class="desktop-user">{{ authService.currentUser().name || authService.currentUser().email }}</span>
+        <button mat-icon-button (click)="authService.logout()" class="logout-icon"><mat-icon>logout</mat-icon></button>
+      } @else {
+        <button mat-flat-button (click)="navigate('/auth/login')" class="login-btn">
+          Ingresar
+        </button>
+      }
+    </div>
+  </mat-toolbar>
+}
+
+<!-- Main Content -->
+<main class="app-content"
+  [class.no-header]="isAuthRoute || isAdminRoute"
+  [class.has-bottom-nav]="!isAuthRoute && !isAdminRoute">
+  <router-outlet />
+</main>
+
+<!-- Bottom Navigation (mobile only) -->
+@if (!isAuthRoute && !isAdminRoute) {
+  <nav class="bottom-nav">
+    <button class="nav-item" [class.active]="router.url === '/home'" (click)="navigate('/home')">
+      <mat-icon>home</mat-icon>
+      <span>Inicio</span>
+    </button>
+    <button class="nav-item" [class.active]="router.url === '/cart'" (click)="navigate('/cart')">
+      <mat-icon [matBadge]="cartService.itemCount() || null" matBadgeColor="warn" matBadgeSize="small">
+        shopping_cart
+      </mat-icon>
+      <span>Carrito</span>
+    </button>
+    @if (authService.isAuthenticated()) {
+      <button class="nav-item" [class.active]="router.url === '/orders'" (click)="navigate('/orders')">
+        <mat-icon>receipt_long</mat-icon>
+        <span>Pedidos</span>
+      </button>
+      <button class="nav-item" [class.active]="router.url === '/profile'" (click)="navigate('/profile')">
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+      </button>
+    } @else {
+      <button class="nav-item" (click)="navigate('/auth/login')">
+        <mat-icon>login</mat-icon>
+        <span>Ingresar</span>
+      </button>
+    }
+    @if (authService.isAdmin()) {
+      <button class="nav-item" [class.active]="router.url.startsWith('/admin')" (click)="navigate('/admin')">
+        <mat-icon>admin_panel_settings</mat-icon>
+        <span>Admin</span>
+      </button>
+    }
+  </nav>
+}
