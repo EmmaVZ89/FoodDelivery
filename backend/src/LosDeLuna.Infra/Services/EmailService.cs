@@ -51,9 +51,9 @@ public class EmailService : IEmailService
                     <h2 style='color: #1C1210;'>¡Hola!</h2>
                     <p>Hacé clic en el siguiente botón para acceder a tu cuenta:</p>
                     <a href='{magicLinkUrl}'
-                       style='display: inline-block; background: linear-gradient(135deg, #C2410C, #9A3412); color: white;
-                              padding: 14px 28px; text-decoration: none; border-radius: 12px;
-                              font-size: 16px; margin: 20px 0;'>
+                       style='display: inline-block; background-color: #C2410C; color: #ffffff;
+                              padding: 14px 28px; text-decoration: none; border-radius: 8px;
+                              font-size: 16px; font-weight: bold; margin: 20px 0;'>
                         Ingresar a {fromName}
                     </a>
                     <p style='color: #78716C; font-size: 13px;'>
