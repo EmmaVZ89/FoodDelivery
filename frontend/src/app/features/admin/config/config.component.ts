@@ -82,9 +82,24 @@ import { AdminService } from '../../../core/services/admin.service';
           </mat-form-field>
         </div>
 
-        <button mat-raised-button color="primary" (click)="save()">
-          <mat-icon>save</mat-icon> Guardar configuración
-        </button>
+        <h3 class="section-label">Email (Brevo)</h3>
+        <p class="field-hint">Email y nombre que se usan para enviar los magic links. Debe estar verificado en Brevo.</p>
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Email remitente</mat-label>
+            <input matInput [(ngModel)]="config().emailFrom" placeholder="tu@gmail.com" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre remitente</mat-label>
+            <input matInput [(ngModel)]="config().emailFromName" placeholder="Mi Negocio" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" (click)="save()">
+            <mat-icon>save</mat-icon> Guardar configuración
+          </button>
+        </div>
       </div>
       } @else {
         <div class="error-state">
@@ -106,6 +121,9 @@ import { AdminService } from '../../../core/services/admin.service';
     .page-subtitle { margin: -8px 0 16px; font-size: 14px; color: #94a3b8; }
     .loading-center { text-align: center; padding: 48px; }
     .error-state { text-align: center; padding: 48px; color: #999; mat-icon { font-size: 48px; width: 48px; height: 48px; color: #ddd; } }
+    .section-label { font-size: 15px; font-weight: 600; color: #1C1210; margin: 16px 0 4px; }
+    .field-hint { font-size: 13px; color: #A8A29E; margin: 0 0 12px; }
+    .form-actions { display: flex; justify-content: flex-end; margin-top: 16px; }
   `]
 })
 export class ConfigComponent implements OnInit {

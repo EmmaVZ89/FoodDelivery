@@ -46,7 +46,10 @@
       "Bash(grep -E \"\\\\.env$|\\\\.env\\\\.\")",
       "Bash(git add:*)",
       "Bash(git rm:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git remote:*)",
+      "Bash(git branch:*)"
     ]
   }
 }

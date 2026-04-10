@@ -63,7 +63,7 @@ public class AuthService : IAuthService
 
         var url = $"{_frontendUrl}/auth/verify?token={token}";
         var config = await _db.BusinessConfigs.FirstOrDefaultAsync();
-        await _emailService.SendMagicLinkAsync(email, url, config?.Name ?? "");
+        await _emailService.SendMagicLinkAsync(email, url, config?.Name ?? "", config?.EmailFrom, config?.EmailFromName);
 
         return "Se envió un enlace de acceso a tu email";
     }

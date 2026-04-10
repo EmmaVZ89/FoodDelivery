@@ -10,28 +10,32 @@ public class EmailService : IEmailService
 {
     private readonly ILogger<EmailService> _logger;
     private readonly string _apiKey;
-    private readonly string _fromEmail;
-    private readonly string _fromName;
+    private readonly string _defaultFromEmail;
+    private readonly string _defaultFromName;
     private static readonly HttpClient _httpClient = new();
 
     public EmailService(ILogger<EmailService> logger)
     {
         _logger = logger;
         _apiKey = Environment.GetEnvironmentVariable("BREVO_API_KEY") ?? "";
-        _fromEmail = Environment.GetEnvironmentVariable("EMAIL_FROM") ?? "noreply@example.com";
-        _fromName = Environment.GetEnvironmentVariable("EMAIL_FROM_NAME") ?? "";
+        _defaultFromEmail = Environment.GetEnvironmentVariable("EMAIL_FROM") ?? "noreply@example.com";
+        _defaultFromName = Environment.GetEnvironmentVariable("EMAIL_FROM_NAME") ?? "";
     }
 
-    public async Task SendMagicLinkAsync(string toEmail, string magicLinkUrl, string businessName = "")
+    public async Task SendMagicLinkAsync(string toEmail, string magicLinkUrl, string businessName = "", string? senderEmail = null, string? senderName = null)
     {
-        var senderName = !string.IsNullOrWhiteSpace(businessName) ? businessName
-            : !string.IsNullOrWhiteSpace(_fromName) ? _fromName
+        // Priority: BD config > .env > defaults
+        var fromEmail = !string.IsNullOrWhiteSpace(senderEmail) ? senderEmail : _defaultFromEmail;
+        var fromName = !string.IsNullOrWhiteSpace(senderName) ? senderName
+            : !string.IsNullOrWhiteSpace(businessName) ? businessName
+            : !string.IsNullOrWhiteSpace(_defaultFromName) ? _defaultFromName
             : "Tu negocio";
 
         if (string.IsNullOrEmpty(_apiKey) || _apiKey.Contains("placeholder"))
         {
             _logger.LogWarning("=== MAGIC LINK (dev mode) ===");
             _logger.LogWarning("To: {Email}", toEmail);
+            _logger.LogWarning("From: {Name} <{FromEmail}>", fromName, fromEmail);
             _logger.LogWarning("URL: {Url}", magicLinkUrl);
             _logger.LogWarning("=============================");
             return;
@@ -39,9 +43,9 @@ public class EmailService : IEmailService
 
         var payload = new
         {
-            sender = new { name = senderName, email = _fromEmail },
+            sender = new { name = fromName, email = fromEmail },
             to = new[] { new { email = toEmail } },
-            subject = $"Tu enlace de acceso - {senderName}",
+            subject = $"Tu enlace de acceso - {fromName}",
             htmlContent = $@"
                 <div style='font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;'>
                     <h2 style='color: #1C1210;'>¡Hola!</h2>
@@ -50,7 +54,7 @@ public class EmailService : IEmailService
                        style='display: inline-block; background: linear-gradient(135deg, #C2410C, #9A3412); color: white;
                               padding: 14px 28px; text-decoration: none; border-radius: 12px;
                               font-size: 16px; margin: 20px 0;'>
-                        Ingresar a {senderName}
+                        Ingresar a {fromName}
                     </a>
                     <p style='color: #78716C; font-size: 13px;'>
                         Este enlace expira en 15 minutos.<br>

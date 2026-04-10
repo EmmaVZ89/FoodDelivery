@@ -96,6 +96,8 @@ public class UpdateConfigRequest
     public decimal? Longitude { get; set; }
     public int? MaxConcurrentOrders { get; set; }
     public decimal? ShippingCost { get; set; }
+    [MaxLength(255)] public string? EmailFrom { get; set; }
+    [MaxLength(100)] public string? EmailFromName { get; set; }
 }
 
 // Discount Codes

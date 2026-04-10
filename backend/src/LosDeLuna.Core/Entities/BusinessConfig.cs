@@ -13,4 +13,6 @@ public class BusinessConfig : BaseEntity
     public decimal? Longitude { get; set; }
     public int MaxConcurrentOrders { get; set; } = 0;
     public decimal ShippingCost { get; set; } = 0;
+    public string? EmailFrom { get; set; }
+    public string? EmailFromName { get; set; }
 }

@@ -42,6 +42,8 @@ public class AdminConfigController : ControllerBase
         if (req.Longitude.HasValue) config.Longitude = req.Longitude;
         if (req.MaxConcurrentOrders.HasValue) config.MaxConcurrentOrders = req.MaxConcurrentOrders.Value;
         if (req.ShippingCost.HasValue) config.ShippingCost = req.ShippingCost.Value;
+        if (req.EmailFrom != null) config.EmailFrom = req.EmailFrom;
+        if (req.EmailFromName != null) config.EmailFromName = req.EmailFromName;
 
         config.UpdatedAt = DateTime.UtcNow;
         await _db.SaveChangesAsync();
