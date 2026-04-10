@@ -7,7 +7,7 @@ COPY frontend/ .
 RUN npx ng build --configuration production
 
 # ===== Stage 2: Build .NET backend =====
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS backend-build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS backend-build
 WORKDIR /src
 COPY backend/src/LosDeLuna.API/LosDeLuna.API.csproj src/LosDeLuna.API/
 COPY backend/src/LosDeLuna.Core/LosDeLuna.Core.csproj src/LosDeLuna.Core/
@@ -17,7 +17,7 @@ COPY backend/ .
 RUN dotnet publish src/LosDeLuna.API/LosDeLuna.API.csproj -c Release -o /app/publish
 
 # ===== Stage 3: Final runtime =====
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview AS final
 WORKDIR /app
 
 COPY --from=backend-build /app/publish .
