@@ -150,7 +150,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 4px; padding: 28px 16px; border: 2px dashed #ccc; border-radius: 12px;
       cursor: pointer; color: #999; transition: border-color 0.2s; width: 100%;
-      &:hover { border-color: #c62828; color: #c62828; }
+      &:hover { border-color: #3A6324; color: #3A6324; }
       mat-icon { font-size: 36px; width: 36px; height: 36px; }
       .upload-hint { font-size: 11px; color: #bbb; }
     }

@@ -121,8 +121,8 @@ import { AdminService } from '../../../core/services/admin.service';
     .page-subtitle { margin: -8px 0 16px; font-size: 14px; color: #94a3b8; }
     .loading-center { text-align: center; padding: 48px; }
     .error-state { text-align: center; padding: 48px; color: #999; mat-icon { font-size: 48px; width: 48px; height: 48px; color: #ddd; } }
-    .section-label { font-size: 15px; font-weight: 600; color: #1C1210; margin: 16px 0 4px; }
-    .field-hint { font-size: 13px; color: #A8A29E; margin: 0 0 12px; }
+    .section-label { font-size: 15px; font-weight: 600; color: #1A2E12; margin: 16px 0 4px; }
+    .field-hint { font-size: 13px; color: #94A88D; margin: 0 0 12px; }
     .form-actions { display: flex; justify-content: flex-end; margin-top: 16px; }
   `]
 })

@@ -161,11 +161,11 @@ import { AdminService } from '../../../core/services/admin.service';
 
     .badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
     .badge-sm { padding: 2px 8px; font-size: 11px; }
-    .badge-pending { background: #fff3e0; color: #e65100; }
+    .badge-pending { background: #F2F8EC; color: #4A7C2E; }
     .badge-preparing { background: #e3f2fd; color: #1565c0; }
     .badge-ontheway { background: #f3e5f5; color: #7b1fa2; }
     .badge-delivered { background: #e8f5e9; color: #2e7d32; }
-    .badge-cancelled { background: #ffebee; color: #c62828; }
+    .badge-cancelled { background: #ffebee; color: #3A6324; }
 
     .card-body { padding: 12px 16px; }
     .card-row { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #555; margin-bottom: 4px; }
@@ -183,11 +183,11 @@ import { AdminService } from '../../../core/services/admin.service';
       mat-icon { font-size: 16px; width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
     }
 
-    .status-history { margin-top: 16px; padding-top: 12px; border-top: 1px solid #F0E6D9; }
-    .status-history h4 { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: #78716C; }
+    .status-history { margin-top: 16px; padding-top: 12px; border-top: 1px solid #E2EDDA; }
+    .status-history h4 { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: #5F7456; }
     .history-item { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
-    .history-date { font-size: 12px; color: #A8A29E; }
-    .history-notes { font-size: 12px; color: #78716C; font-style: italic; }
+    .history-date { font-size: 12px; color: #94A88D; }
+    .history-notes { font-size: 12px; color: #5F7456; font-style: italic; }
   `],
 })
 export class AdminOrdersComponent implements OnInit {

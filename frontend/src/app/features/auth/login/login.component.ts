@@ -95,14 +95,14 @@ import { AuthService } from '../../../core/services/auth.service';
       align-items: center;
       min-height: 100vh;
       padding: 16px;
-      background: #FBF8F3;
+      background: #FAFCF7;
     }
     .login-card {
       max-width: 420px;
       width: 100%;
       padding: 24px;
       border-radius: 16px;
-      border: 1px solid #F0E6D9;
+      border: 1px solid #E2EDDA;
       box-shadow: 0 4px 20px rgba(28,18,16,0.08);
     }
     .login-form {
@@ -116,7 +116,7 @@ import { AuthService } from '../../../core/services/auth.service';
       font-size: 16px;
       margin-top: 8px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #C2410C, #9A3412) !important;
+      background: linear-gradient(135deg, #4A7C2E, #3A6324) !important;
       color: white !important;
     }
     @media (max-width: 480px) {

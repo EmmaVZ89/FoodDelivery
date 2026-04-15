@@ -8,7 +8,7 @@
   right: 0;
   z-index: 1000;
   height: 64px;
-  background: linear-gradient(135deg, #1C1210 0%, #2D1F1A 100%) !important;
+  background: linear-gradient(135deg, #1A2E12 0%, #243A1A 100%) !important;
   color: white !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
@@ -98,7 +98,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #D97706;
+  background: #D4941C;
   color: white;
   font-size: 10px;
   font-weight: 700;
@@ -128,7 +128,7 @@
 }
 
 .login-btn {
-  background: linear-gradient(135deg, #C2410C, #D97706) !important;
+  background: linear-gradient(135deg, #4A7C2E, #D4941C) !important;
   color: white !important;
   font-weight: 600 !important;
   border: none !important;
@@ -180,7 +180,7 @@
     border: none;
     cursor: pointer;
     padding: 6px 10px;
-    color: #A8A29E;
+    color: #94A88D;
     font-size: 10px;
     font-weight: 500;
     transition: color 0.2s;
@@ -193,7 +193,7 @@
     }
 
     &.active {
-      color: #C2410C;
+      color: #4A7C2E;
       font-weight: 600;
     }
   }

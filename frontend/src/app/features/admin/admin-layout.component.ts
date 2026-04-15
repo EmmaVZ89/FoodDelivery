@@ -78,8 +78,8 @@ import { ConfigService } from '../../core/services/config.service';
 
     .admin-sidenav {
       width: 260px;
-      background: #FBF8F3;
-      border-right: 1px solid #F0E6D9;
+      background: #FAFCF7;
+      border-right: 1px solid #E2EDDA;
     }
 
     .sidenav-header {
@@ -87,42 +87,42 @@ import { ConfigService } from '../../core/services/config.service';
       align-items: center;
       gap: 12px;
       padding: 20px 16px;
-      border-bottom: 1px solid #F0E6D9;
+      border-bottom: 1px solid #E2EDDA;
     }
 
-    .logo-icon { color: #C2410C; font-size: 28px; width: 28px; height: 28px; }
+    .logo-icon { color: #4A7C2E; font-size: 28px; width: 28px; height: 28px; }
     .logo-img { width: 32px; height: 32px; border-radius: 8px; object-fit: contain; }
-    .logo-text { font-size: 18px; font-weight: 600; color: #1C1210; }
+    .logo-text { font-size: 18px; font-weight: 600; color: #1A2E12; }
 
     .admin-sidenav mat-nav-list a {
-      color: #78716C;
+      color: #5F7456;
       border-radius: 8px;
       margin: 2px 8px;
     }
-    .admin-sidenav mat-nav-list a mat-icon { color: #78716C; }
-    .admin-sidenav mat-nav-list a:hover { background: #FEF7ED; color: #1C1210; }
+    .admin-sidenav mat-nav-list a mat-icon { color: #5F7456; }
+    .admin-sidenav mat-nav-list a:hover { background: #F2F8EC; color: #1A2E12; }
 
     .admin-sidenav mat-nav-list a.active-link {
-      background: #FFF1E6;
-      color: #C2410C;
+      background: #EAF4E0;
+      color: #4A7C2E;
       font-weight: 600;
     }
-    .admin-sidenav mat-nav-list a.active-link mat-icon { color: #C2410C; }
+    .admin-sidenav mat-nav-list a.active-link mat-icon { color: #4A7C2E; }
 
     .sidenav-footer {
       margin-top: auto;
-      border-top: 1px solid #F0E6D9;
+      border-top: 1px solid #E2EDDA;
       padding: 8px 0;
     }
-    .sidenav-footer a { color: #78716C; }
+    .sidenav-footer a { color: #5F7456; }
 
     .admin-toolbar {
       position: sticky;
       top: 0;
       z-index: 10;
       background: #FFFFFF;
-      color: #1C1210;
-      border-bottom: 1px solid #F0E6D9;
+      color: #1A2E12;
+      border-bottom: 1px solid #E2EDDA;
       box-shadow: none;
     }
     .toolbar-title { font-size: 16px; font-weight: 600; }
@@ -130,7 +130,7 @@ import { ConfigService } from '../../core/services/config.service';
     .admin-content {
       padding: 24px;
       max-width: 1400px;
-      background: #FBF8F3;
+      background: #FAFCF7;
       min-height: calc(100vh - 64px);
     }
 

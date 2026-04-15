@@ -18,7 +18,7 @@
 
 .order-card {
   background: white;
-  border: 1px solid #F0E6D9;
+  border: 1px solid #E2EDDA;
   border-radius: 12px;
   padding: 16px;
   box-shadow: 0 1px 4px rgba(28,18,16,0.06);
@@ -52,7 +52,7 @@
   mat-icon { font-size: 16px; width: 16px; height: 16px; }
 }
 
-.status-pending { background: #FFF7ED; color: #C2410C; }
+.status-pending { background: #F2F8EC; color: #4A7C2E; }
 .status-preparing { background: #EFF6FF; color: #2563EB; }
 .status-ontheway { background: #F5F3FF; color: #7C3AED; }
 .status-delivered { background: #F0FDF4; color: #16A34A; }
@@ -66,7 +66,7 @@
   color: #666;
 }
 
-.order-total { font-weight: 600; color: #1C1210; font-size: 16px; }
+.order-total { font-weight: 600; color: #1A2E12; font-size: 16px; }
 
 .order-detail {
   margin-top: 16px;

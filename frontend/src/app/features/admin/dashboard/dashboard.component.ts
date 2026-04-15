@@ -51,7 +51,7 @@ interface DashboardData {
       margin: 0 0 8px;
       font-size: 24px;
       font-weight: 600;
-      color: #1C1210;
+      color: #1A2E12;
     }
 
     .dashboard-grid {
@@ -76,7 +76,7 @@ interface DashboardData {
       gap: 6px;
       min-height: 130px;
       justify-content: center;
-      border: 1px solid #F0E6D9;
+      border: 1px solid #E2EDDA;
     }
 
     .stat-icon {
@@ -88,7 +88,7 @@ interface DashboardData {
 
     .stat-label {
       font-size: 12px;
-      color: #78716C;
+      color: #5F7456;
       font-weight: 500;
       line-height: 1.2;
       white-space: nowrap;
@@ -97,7 +97,7 @@ interface DashboardData {
     .stat-value {
       font-size: 22px;
       font-weight: 600;
-      color: #1C1210;
+      color: #1A2E12;
       white-space: nowrap;
     }
 
@@ -107,7 +107,7 @@ interface DashboardData {
     }
 
     .skeleton {
-      background: linear-gradient(90deg, #EDE8E3 25%, #F5F0EB 50%, #EDE8E3 75%);
+      background: linear-gradient(90deg, #DDECD4 25%, #E8F3E0 50%, #DDECD4 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
       border-radius: 6px;
