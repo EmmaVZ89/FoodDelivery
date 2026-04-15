@@ -64,9 +64,9 @@
   mat-icon { font-size: 18px; width: 18px; height: 18px; }
 
   &.open {
-    background: rgba(22, 163, 74, 0.2);
-    color: #86efac;
-    border: 1px solid rgba(22, 163, 74, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
   }
   &.closed {
     background: rgba(255, 255, 255, 0.1);
