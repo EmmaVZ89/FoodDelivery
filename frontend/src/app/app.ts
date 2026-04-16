@@ -46,7 +46,7 @@ export class App implements OnInit {
     effect(() => {
       const config = this.configService.config();
       if (config) {
-        this.titleService.setTitle(config.name || 'Lo de Luna');
+        this.titleService.setTitle(config.name || 'Dulce Equilibrio');
         if (config.faviconUrl) {
           const link: HTMLLinkElement = document.querySelector("link[rel*='icon']") || document.createElement('link');
           link.rel = 'icon';
