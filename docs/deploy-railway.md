@@ -63,7 +63,21 @@ STORAGE_PATH=/app/storage
 MAX_IMAGE_SIZE_MB=2
 FRONTEND_URL=https://TU_DOMINIO.up.railway.app
 ASPNETCORE_ENVIRONMENT=Production
+
+# Memory optimization (reduce ~60% RAM usage on low-traffic apps)
+DOTNET_gcServer=0
+DOTNET_GCHeapHardLimit=0x6400000
+DOTNET_GCConserveMemory=9
 ```
+
+### Optimización de memoria
+
+Las 3 variables `DOTNET_*` aplican Workstation GC con conservación agresiva de memoria:
+- **`DOTNET_gcServer=0`**: Usa Workstation GC (menor consumo que Server GC)
+- **`DOTNET_GCHeapHardLimit=0x6400000`**: Limita el heap a 100MB
+- **`DOTNET_GCConserveMemory=9`**: Máxima agresividad para liberar memoria (escala 0-9)
+
+Reduce el consumo de RAM de ~250MB a ~100MB en apps con pocos usuarios concurrentes. Si llegas a tener `OutOfMemoryException`, subí el heap a `0xC800000` (200MB).
 
 **IMPORTANTE**: `FRONTEND_URL` debe ser la URL publica del servicio en Railway (se ve en Settings → Domains). Se usa para generar los magic links en los emails.
 

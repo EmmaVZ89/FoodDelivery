@@ -1,5 +1,24 @@
 # Changelog - Lo de Luna
 
+## 2026-04-16 - Limpieza y blueprint genérico
+
+### Limpieza del repositorio
+- Eliminadas carpetas legacy (DeliveryWebApp, DeliveryWebAppAdminMobile, Lo-de-luna-WebApp)
+- Eliminados archivos temporales (Nuevo documento de texto.txt, requerimiento iniciales.txt)
+
+### Documentación
+- Nuevo `docs/blueprint.md`: guía genérica para replicar el proyecto en cualquier negocio de delivery, sin nombres propios ni código de referencia. Cubre arquitectura, stack, modelo de datos, endpoints, flujos, principios de desarrollo, UI/UX, deploy y consideraciones de escalabilidad.
+
+### Optimización de memoria .NET (Railway)
+- Variables documentadas en `.env.example` y `docs/deploy-railway.md`:
+  - `DOTNET_gcServer=0` — Workstation GC (menor consumo que Server GC)
+  - `DOTNET_GCHeapHardLimit=0x6400000` — Heap máximo 100MB
+  - `DOTNET_GCConserveMemory=9` — Máxima agresividad de liberación de memoria
+- Reduce consumo típico de ~250MB a ~100MB RAM
+- Aplicable en Railway como variables de entorno del servicio (sin cambio de código)
+
+---
+
 ## 2026-04-06 - Preparacion para deploy
 
 ### Deploy
