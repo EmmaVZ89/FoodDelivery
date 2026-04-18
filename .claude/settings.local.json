@@ -51,7 +51,8 @@
       "Bash(git remote:*)",
       "Bash(git branch:*)",
       "Read(//c/Users/Note/Downloads/**)",
-      "Bash(cp /c/Users/Note/Downloads/logoemma.png /c/Users/Note/OneDrive/Desktop/delivery/frontend/public/og-preview.png)"
+      "Bash(cp /c/Users/Note/Downloads/logoemma.png /c/Users/Note/OneDrive/Desktop/delivery/frontend/public/og-preview.png)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

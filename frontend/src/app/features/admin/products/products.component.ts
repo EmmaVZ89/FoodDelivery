@@ -339,15 +339,44 @@ export class ProductsComponent implements OnInit {
 
   edit(row: any) {
     this.editingId.set(row.id);
-    this.adminService.getProduct(row.id).subscribe(p => {
-      this.form = {
-        name: p.name, description: p.description, price: p.price, categoryId: p.categoryId,
-        imageUrl: p.imageUrl, isActive: p.isActive, isAvailable: p.isAvailable,
-        isPromotion: p.isPromotion, discountPercent: p.discountPercent || 0,
-        hasVariants: p.hasVariants || (p.variants?.length > 0),
-        variants: p.variants || [], customizationGroups: p.customizationGroups || []
-      };
-      this.showForm.set(true);
+    this.adminService.getProduct(row.id).subscribe({
+      next: p => {
+        this.form = {
+          name: p.name,
+          description: p.description,
+          price: p.price,
+          categoryId: p.categoryId,
+          imageUrl: p.imageUrl,
+          isActive: p.isActive,
+          isAvailable: p.isAvailable,
+          isPromotion: p.isPromotion,
+          discountPercent: p.discountPercent || 0,
+          hasVariants: p.hasVariants || (p.variants?.length > 0),
+          variants: (p.variants || []).map((v: any) => ({
+            name: v.name,
+            price: v.price,
+            selectionCount: v.selectionCount,
+            isActive: v.isActive ?? true,
+          })),
+          customizationGroups: (p.customizationGroups || []).map((g: any) => ({
+            name: g.name,
+            selectionType: g.selectionType,
+            minSelections: g.minSelections || 0,
+            maxSelections: g.maxSelections ?? null,
+            isRequired: g.isRequired,
+            options: (g.options || []).map((o: any) => ({
+              name: o.name,
+              priceModifier: o.priceModifier || 0,
+              isActive: o.isActive ?? true,
+            })),
+          })),
+        };
+        this.showForm.set(true);
+      },
+      error: () => {
+        this.editingId.set(null);
+        this.snack.open('Error al cargar el producto', 'OK', { duration: 3000 });
+      },
     });
   }
 

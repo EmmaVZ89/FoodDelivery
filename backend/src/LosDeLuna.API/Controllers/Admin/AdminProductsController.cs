@@ -48,7 +48,49 @@ public class AdminProductsController : ControllerBase
             .FirstOrDefaultAsync(x => x.Id == id);
 
         if (p == null) return NotFound();
-        return Ok(p);
+
+        return Ok(new
+        {
+            p.Id,
+            p.CategoryId,
+            p.Name,
+            p.Description,
+            p.Price,
+            p.ImageUrl,
+            p.IsActive,
+            p.IsAvailable,
+            p.IsPromotion,
+            p.DiscountPercent,
+            p.HasVariants,
+            p.SortOrder,
+            Variants = p.Variants.OrderBy(v => v.SortOrder).Select(v => new
+            {
+                v.Id,
+                v.Name,
+                v.Price,
+                v.SelectionCount,
+                v.IsActive,
+                v.SortOrder
+            }),
+            CustomizationGroups = p.CustomizationGroups.OrderBy(g => g.SortOrder).Select(g => new
+            {
+                g.Id,
+                g.Name,
+                SelectionType = g.SelectionType.ToString(),
+                g.MinSelections,
+                g.MaxSelections,
+                g.IsRequired,
+                g.SortOrder,
+                Options = g.Options.OrderBy(o => o.SortOrder).Select(o => new
+                {
+                    o.Id,
+                    o.Name,
+                    o.PriceModifier,
+                    o.IsActive,
+                    o.SortOrder
+                })
+            })
+        });
     }
 
     [HttpPost]
